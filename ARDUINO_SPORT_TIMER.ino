@@ -1,4 +1,9 @@
 /*
+SPORT TIMER - STAVRAKAS 05/2020
+
+
+Program allowing to realize a timer with 2 variables, useful for realizing 2 periods in a training.
+Controlled by an rotary encoder (with its button), LCD I2C control screen, and buzzer.
 
 Wiring:
 
@@ -6,19 +11,13 @@ LCD:        Rotary:     Buzzer:
 SCL > A5    CLK > D2    +  > D8
 SDA > A4    DT  > D3    -  > 100 ohm > GND
             SW  > D4
-
-
-
 */
-
-
-
-
 
 #include <Wire.h>
 #include <RotaryEncoder.h>
 #include <LiquidCrystal_I2C.h>
 
+// LCD positionning constants
 #define X1 1
 #define Y1 0
 #define X2 1
@@ -27,6 +26,7 @@ SDA > A4    DT  > D3    -  > 100 ohm > GND
 #define XGO 13
 #define YGO 0
 
+// Timing constants
 #define MENUMIN 0
 #define MENUMAX 2
 #define T1MIN 10
@@ -49,14 +49,6 @@ int c = 0; // timer
 const int period = 250; // timer
 unsigned long time_now = 0; // timer
 unsigned long time_now2 = 0; // timer 2
-
-
-
-
-
-
-
-
 
 void setup() {
   Serial.begin(115200);
@@ -96,11 +88,11 @@ void loop() {
     lastPosMenu = changeVal(255, lastPosMenu, MENUMIN, MENUMAX);
   }
   if (swCt == 1 && lastPosMenu == 0) {
-    // Change speed
+    // Change time1
     lastPosT1 = changeVal(0, lastPosT1, T1MIN, T1MAX);
   }
   if (swCt == 1 && lastPosMenu == 1) {
-    // Change step
+    // Change time2
     lastPosT2 = changeVal(1, lastPosT2, T2MIN, T2MAX);
   }
   if (swCt == 1 && lastPosMenu == 2) {
@@ -153,6 +145,7 @@ void secPrint (int item, int sec) {
 
 
 void runTimer (int t1, int t2) {
+  // Mario Kart ;-)
   tone(8, 1000, 500);
   delay(1000);
   tone(8, 1000, 500);
